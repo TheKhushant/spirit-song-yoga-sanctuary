@@ -64,12 +64,28 @@ const ContactSection = () => {
           <p className="text-muted-foreground mb-6">
             Plot No N-408, Karimabad Housing Society, Opp Poonam Chambers, Byramji Town, Katolroad, Nagpur, Maharashtra - 440013
           </p>
-          <div className="flex items-center gap-2 text-muted-foreground mb-4">
-            <Mail className="w-4 h-4 text-primary" />
-            <span className="text-sm">lalaninevin46@gmail.com</span>
-            <Phone className="w-4 h-4 text-primary" />
-            <span className="text-sm">+91 7709518719</span>
+          
+          {/* Contact info with responsive layout */}
+          <div className="space-y-2 md:space-y-0">
+            {/* Email - always in one line */}
+            <div className="flex items-center gap-2 text-muted-foreground mb-4 md:mb-2">
+              <Mail className="w-4 h-4 text-primary flex-shrink-0" />
+              <span className="text-sm">lalaninevin46@gmail.com</span>
+            </div>
+            
+            {/* Phone numbers - responsive layout */}
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-sm">+91 7709518719</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-sm">+91 9422188999</span>
+              </div>
+            </div>
           </div>
+
           <div className="flex gap-3 mt-4">
             {[Instagram, Youtube, Facebook].map((Icon, i) => (
               <a
