@@ -4,7 +4,7 @@ import SectionWrapper from "./SectionWrapper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Instagram, Youtube, Facebook } from "lucide-react";
+import { Phone, Mail, Instagram, Youtube, Facebook } from "lucide-react";
 import { toast } from "sonner";
 
 const ContactSection = () => {
@@ -61,9 +61,14 @@ const ContactSection = () => {
           <p className="text-muted-foreground mb-6">
             Join our community and embark on a transformative journey toward balance, peace, and well-being.
           </p>
+          <p className="text-muted-foreground mb-6">
+            Plot No N-408, Karimabad Housing Society, Opp Poonam Chambers, Byramji Town, Katolroad, Nagpur, Maharashtra - 440013
+          </p>
           <div className="flex items-center gap-2 text-muted-foreground mb-4">
             <Mail className="w-4 h-4 text-primary" />
-            <span className="text-sm">hello@spiritsongyoga.com</span>
+            <span className="text-sm">lalaninevin46@gmail.com</span>
+            <Phone className="w-4 h-4 text-primary" />
+            <span className="text-sm">+91 7709518719</span>
           </div>
           <div className="flex gap-3 mt-4">
             {[Instagram, Youtube, Facebook].map((Icon, i) => (
