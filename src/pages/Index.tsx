@@ -11,12 +11,14 @@ import MeditationSection from "@/components/MeditationSection";
 import BeginnerGuideSection from "@/components/BeginnerGuideSection";
 import DailyPlanSection from "@/components/DailyPlanSection";
 import ContactSection from "@/components/ContactSection";
+import FounderCard from "@/components/FounderCard";
 import Footer from "@/components/Footer";
 
 const Index = () => (
   <div className="min-h-screen">
     <Navbar />
     <HeroSection />
+    <FounderCard/>
     <AboutSection />
     <BenefitsSection />
     <YogaTypesSection />

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
-import { Brain, Dumbbell, Sparkles } from "lucide-react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { Brain, Dumbbell, Sparkles, Trophy, Award, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const pillars = [
   {
@@ -135,17 +135,48 @@ const portraitImages = [
   },
 ];
 
-// Duplicate images for seamless infinite scroll (3 times for smoother loop)
+// Achievement images from public/achivement/ folder
+const achievementsImages = [
+  { id: 1, url: "/achivement/achiv1.jpeg", title: "Yoga Excellence Award", year: "2024" },
+  { id: 1, url: "/achivement/achiv2.jpeg", title: "Yoga Excellence Award", year: "2024" },
+  { id: 2, url: "/achivement/achiv3.jpeg", title: "Wellness Leadership", year: "2023" },
+  { id: 3, url: "/achivement/achiv4.jpeg", title: "Best Yoga Instructor", year: "2023" },
+  { id: 4, url: "/achivement/achiv5.jpeg", title: "Community Impact", year: "2022" },
+  { id: 5, url: "/achivement/achiv6.jpeg", title: "International Recognition", year: "2022" },
+  { id: 6, url: "/achivement/achiv7.jpeg", title: "Yoga Innovation Award", year: "2021" },
+  { id: 7, url: "/achivement/achiv8.jpeg", title: "Spiritual Leadership", year: "2021" },
+  { id: 8, url: "/achivement/achiv9.jpeg", title: "Health & Wellness Award", year: "2020" },
+  { id: 9, url: "/achivement/achiv10.jpeg", title: "Mindfulness Champion", year: "2020" },
+  { id: 10, url: "/achivement/achiv11.jpeg", title: "Yoga Master Award", year: "2019" },
+  { id: 11, url: "/achivement/achiv12.png", title: "Excellence in Teaching", year: "2019" },
+  { id: 12, url: "/achivement/achiv13.jpeg", title: "Holistic Health Award", year: "2018" },
+  { id: 13, url: "/achivement/achiv14.jpeg", title: "Best Wellness Program", year: "2018" },
+  { id: 14, url: "/achivement/achiv15.jpeg", title: "Yoga Icon Award", year: "2017" },
+  { id: 15, url: "/achivement/achiv16.jpeg", title: "Peace Ambassador", year: "2017" },
+  { id: 16, url: "/achivement/achiv17.jpeg", title: "Global Yoga Award", year: "2016" },
+  { id: 17, url: "/achivement/achiv18.jpeg", title: "Lifetime Achievement", year: "2016" },
+];
+
+// Duplicate images for seamless infinite scroll
 const duplicatedImages = [...portraitImages, ...portraitImages, ...portraitImages];
+const duplicatedAchievements = [...achievementsImages, ...achievementsImages, ...achievementsImages];
 
 const AboutSection = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
-  const [isHovered, setIsHovered] = useState(false);
-  const scrollSpeed = 0.5; // pixels per frame (adjust for speed)
+  // Refs for both scroll containers
+  const yogaScrollRef = useRef<HTMLDivElement>(null);
+  const achievementsScrollRef = useRef<HTMLDivElement>(null);
+  const yogaAnimationRef = useRef<number | null>(null);
+  const achievementsAnimationRef = useRef<number | null>(null);
   
+  const [isYogaHovered, setIsYogaHovered] = useState(false);
+  const [isAchievementsHovered, setIsAchievementsHovered] = useState(false);
+  
+  const yogaScrollSpeed = 0.5;
+  const achievementsScrollSpeed = 0.6;
+
+  // Scroll hook for yoga images
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
+    const scrollContainer = yogaScrollRef.current;
     if (!scrollContainer) return;
 
     let scrollPosition = scrollContainer.scrollLeft;
@@ -154,55 +185,160 @@ const AboutSection = () => {
     const animateScroll = (timestamp: number) => {
       if (!scrollContainer) return;
       
-      // Calculate time delta for smooth animation
       if (!lastTimestamp) {
         lastTimestamp = timestamp;
-        animationRef.current = requestAnimationFrame(animateScroll);
+        yogaAnimationRef.current = requestAnimationFrame(animateScroll);
         return;
       }
       
-      const delta = Math.min(timestamp - lastTimestamp, 100) / 16.67; // Normalize to 60fps
+      const delta = Math.min(timestamp - lastTimestamp, 100) / 16.67;
       lastTimestamp = timestamp;
       
-      if (!isHovered) {
-        // Increment scroll position based on time delta
-        scrollPosition += scrollSpeed * delta;
+      if (!isYogaHovered) {
+        scrollPosition += yogaScrollSpeed * delta;
+        const maxScroll = scrollContainer.scrollWidth / 3;
         
-        // Get the actual scroll width of the container
-        const maxScroll = scrollContainer.scrollWidth / 3; // One-third of total (original set)
-        
-        // Reset scroll position when we've scrolled past one set
         if (scrollPosition >= maxScroll) {
           scrollPosition = 0;
-          // Silently reset without visible jump
           scrollContainer.scrollLeft = 0;
         } else {
-          // Apply smooth scroll
           scrollContainer.scrollLeft = scrollPosition;
         }
       } else {
-        // Update scrollPosition from actual scroll position when paused
         scrollPosition = scrollContainer.scrollLeft;
       }
       
-      // Continue animation loop
-      animationRef.current = requestAnimationFrame(animateScroll);
+      yogaAnimationRef.current = requestAnimationFrame(animateScroll);
     };
     
-    // Start animation
-    animationRef.current = requestAnimationFrame(animateScroll);
+    yogaAnimationRef.current = requestAnimationFrame(animateScroll);
     
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      if (yogaAnimationRef.current) cancelAnimationFrame(yogaAnimationRef.current);
     };
-  }, [isHovered, scrollSpeed]);
+  }, [isYogaHovered, yogaScrollSpeed]);
+
+  // Scroll hook for achievements
+  useEffect(() => {
+    const scrollContainer = achievementsScrollRef.current;
+    if (!scrollContainer) return;
+
+    let scrollPosition = scrollContainer.scrollLeft;
+    let lastTimestamp = 0;
+    let animationId: number | null = null;
+    
+    const animateScroll = (timestamp: number) => {
+      if (!scrollContainer) return;
+      
+      if (!lastTimestamp) {
+        lastTimestamp = timestamp;
+        animationId = requestAnimationFrame(animateScroll);
+        return;
+      }
+      
+      const delta = Math.min(timestamp - lastTimestamp, 100) / 16.67;
+      lastTimestamp = timestamp;
+      
+      if (!isAchievementsHovered) {
+        scrollPosition += achievementsScrollSpeed * delta;
+        const maxScroll = scrollContainer.scrollWidth / 3;
+        
+        if (scrollPosition >= maxScroll) {
+          scrollPosition = 0;
+          scrollContainer.scrollLeft = 0;
+        } else {
+          scrollContainer.scrollLeft = scrollPosition;
+        }
+      } else {
+        scrollPosition = scrollContainer.scrollLeft;
+      }
+      
+      animationId = requestAnimationFrame(animateScroll);
+    };
+    
+    animationId = requestAnimationFrame(animateScroll);
+    
+    return () => {
+      if (animationId) cancelAnimationFrame(animationId);
+    };
+  }, [isAchievementsHovered, achievementsScrollSpeed]);
 
   return (
     <SectionWrapper id="about" title="The Art of Yoga" subtitle="An ancient practice for the modern world" alternate>
-      {/* Portrait Photos Auto-Scroll Section */}
-      <div className="mb-12">
+      {/* Achievements Auto-Scroll Section */}
+      <div className="mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-center mb-6"
+        >
+          <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full mb-3">
+            <Trophy className="w-4 h-4 text-primary" />
+            <span className="text-sm font-semibold text-primary uppercase tracking-wide">Our Achievements</span>
+          </div>
+          <h3 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-2">
+            Awards & Recognition
+          </h3>
+          <p className="text-sm text-muted-foreground">Celebrating milestones in our wellness journey</p>
+        </motion.div>
+
+        <div
+          ref={achievementsScrollRef}
+          className="overflow-x-hidden cursor-grab active:cursor-grabbing relative"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          onMouseEnter={() => setIsAchievementsHovered(true)}
+          onMouseLeave={() => setIsAchievementsHovered(false)}
+        >
+          <div className="flex gap-4 md:gap-6 pb-4">
+            {duplicatedAchievements.map((item, index) => (
+              <motion.div
+                key={`achievement-${item.id}-${index}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1.05 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.2, delay: (index % achievementsImages.length) * 0.02 }}
+                className="relative group flex-shrink-0"
+              >
+                <div className="w-56 md:w-64 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white border border-gray-100">
+                  <div className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10">
+                    <img
+                      src={item.url}
+                      alt={item.title}
+                      className="w-full h-40 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300?text=Achievement";
+                      }}
+                    />
+                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 shadow-md">
+                      <span className="text-xs font-bold text-primary">{item.year}</span>
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <div className="flex items-center gap-1.5">
+                      <Award className="w-3.5 h-3.5 text-primary/70" />
+                      <h4 className="font-display font-semibold text-xs text-foreground line-clamp-2">
+                        {item.title}
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <Star className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-center text-xs text-muted-foreground mt-4">
+          🏆 {achievementsImages.length}+ Achievements • 🖱️ Hover to pause
+        </p>
+      </div>
+      {/* Yoga Journey Photos Auto-Scroll Section */}
+      <div className="mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -216,21 +352,17 @@ const AboutSection = () => {
           <p className="text-sm text-muted-foreground">Experience the beauty of yoga through our practice</p>
         </motion.div>
 
-        {/* Infinite Scrollable Container */}
         <div
-          ref={scrollContainerRef}
+          ref={yogaScrollRef}
           className="overflow-x-hidden cursor-grab active:cursor-grabbing relative"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          onMouseEnter={() => setIsYogaHovered(true)}
+          onMouseLeave={() => setIsYogaHovered(false)}
         >
           <div className="flex gap-4 md:gap-6 pb-4">
             {duplicatedImages.map((image, index) => (
               <motion.div
-                key={`${image.id}-${index}`}
+                key={`yoga-${image.id}-${index}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -238,18 +370,15 @@ const AboutSection = () => {
                 className="relative group flex-shrink-0"
               >
                 <div className="w-64 md:w-80 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                  {/* Portrait Image */}
                   <img
                     src={image.url}
                     alt={image.name}
                     className="w-full h-auto object-cover aspect-[3/4] group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     onError={(e) => {
-                      // Fallback for broken images
                       (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x600?text=Image+Not+Found";
                     }}
                   />
-                  {/* Overlay with name */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
                     <span className="text-white font-display text-sm font-semibold px-3 py-1 bg-black/50 rounded-full backdrop-blur-sm">
                       {image.name}
@@ -261,26 +390,16 @@ const AboutSection = () => {
           </div>
         </div>
 
-        {/* Custom Scrollbar */}
-        <div className="flex justify-center gap-1 mt-6">
-          {portraitImages.slice(0, 8).map((_, idx) => (
-            <div
-              key={idx}
-              className="h-1 rounded-full transition-all duration-300 bg-primary/20"
-              style={{ width: `${100 / 8}%`, maxWidth: "40px" }}
-            />
-          ))}
-        </div>
-
-        {/* Instruction text */}
         <p className="text-center text-xs text-muted-foreground mt-4">
           🖱️ Hover to pause • Infinite smooth scrolling
         </p>
       </div>
 
+      
+
       {/* Original Content */}
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-        {/* Text Content - Responsive typography and spacing */}
+        {/* Text Content */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -304,7 +423,7 @@ const AboutSection = () => {
           </p>
         </motion.div>
 
-        {/* Pillars Cards - Responsive layout */}
+        {/* Pillars Cards */}
         <div className="grid gap-4 md:gap-6">
           {pillars.map((p, i) => (
             <motion.div
@@ -315,12 +434,9 @@ const AboutSection = () => {
               transition={{ duration: 0.5, delay: i * 0.15 }}
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 p-4 sm:p-6 rounded-lg bg-background border border-border hover:shadow-md transition-shadow"
             >
-              {/* Icon - Responsive sizing */}
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mx-auto sm:mx-0">
                 <p.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
               </div>
-              
-              {/* Text Content */}
               <div className="text-center sm:text-left">
                 <h3 className="font-display text-base sm:text-lg font-semibold mb-1 text-foreground">
                   {p.title}

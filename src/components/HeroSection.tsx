@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import heroImg from "@/assets/hero-yoga.jpg";
+import { Calendar, Mail } from "lucide-react";
 
 const HeroSection = () => (
   <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -49,10 +50,16 @@ const HeroSection = () => (
         className="flex flex-col sm:flex-row gap-4 justify-center"
       >
         <Button variant="hero" size="lg" asChild>
-          <a href="#types">Explore Yoga Types</a>
+          <a href="#contact" className="inline-flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
+            Book an Appointment
+          </a>
         </Button>
         <Button variant="sun" size="lg" asChild>
-          <a href="#surya">Start Surya Namaskar</a>
+          <a href="mailto:lalaninevin46@gmail.com" className="inline-flex items-center gap-2">
+            <Mail className="w-4 h-4" />
+            Email
+          </a>
         </Button>
       </motion.div>
     </div>
