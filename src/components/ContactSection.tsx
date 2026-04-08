@@ -15,7 +15,16 @@ const ContactSection = () => {
     toast.success("Thank you! We'll get back to you soon. 🙏");
     setForm({ name: "", email: "", message: "" });
   };
-
+  const socialLinks = [
+  {
+    icon: Instagram,
+    link: "https://www.instagram.com/nevinsalimlalani?igsh=a2RhdzdpaXQybzU=",
+  },
+  {
+    icon: Facebook,
+    link: "https://www.facebook.com/profile.php?id=61551356831597",
+  },
+];
   return (
     <SectionWrapper id="contact" title="Get in Touch" subtitle="We'd love to hear from you" alternate>
       <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
@@ -87,16 +96,21 @@ const ContactSection = () => {
           </div>
 
           <div className="flex gap-3 mt-4">
-            {[Instagram, Youtube, Facebook].map((Icon, i) => (
+          {socialLinks.map((item, i) => {
+            const Icon = item.icon;
+            return (
               <a
                 key={i}
-                href="#"
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors text-secondary-foreground"
               >
                 <Icon className="w-4 h-4" />
               </a>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         </motion.div>
       </div>
     </SectionWrapper>
