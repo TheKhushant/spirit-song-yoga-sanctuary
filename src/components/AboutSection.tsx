@@ -137,6 +137,7 @@ const portraitImages = [
 
 // Achievement images from public/achivement/ folder
 const achievementsImages = [
+  
   { id: 1, url: "/achivement/achiv1.jpeg", title: "Yoga Excellence Award", year: "2024" },
   { id: 1, url: "/achivement/achiv2.jpeg", title: "Yoga Excellence Award", year: "2024" },
   { id: 2, url: "/achivement/achiv3.jpeg", title: "Wellness Leadership", year: "2023" },
@@ -155,6 +156,7 @@ const achievementsImages = [
   { id: 15, url: "/achivement/achiv16.jpeg", title: "Peace Ambassador", year: "2017" },
   { id: 16, url: "/achivement/achiv17.jpeg", title: "Global Yoga Award", year: "2016" },
   { id: 17, url: "/achivement/achiv18.jpeg", title: "Lifetime Achievement", year: "2016" },
+  { id: 18, url: "/achivement/minister.png", title: "Legacy Award", year: "2015" },
 ];
 
 // Duplicate images for seamless infinite scroll
