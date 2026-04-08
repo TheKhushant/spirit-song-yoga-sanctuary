@@ -37,17 +37,29 @@ const AsanasSection = () => {
             className="pl-10"
           />
         </div>
-        <div className="flex gap-2">
-          {["All", "Beginner", "Intermediate", "Advanced"].map((f) => (
-            <Button
-              key={f}
-              variant={filter === f ? "default" : "outline"}
-              size="sm"
-              onClick={() => setFilter(f)}
-            >
-              {f}
-            </Button>
-          ))}
+        
+        {/* Scrollable filter container */}
+        <div className="relative">
+          {/* Gradient overlays for scroll indication (optional) */}
+          <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background to-transparent pointer-events-none z-10 sm:hidden"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background to-transparent pointer-events-none z-10 sm:hidden"></div>
+          
+          {/* Scrollable wrapper */}
+          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+            <div className="flex gap-2 min-w-max sm:min-w-0 px-0.5">
+              {["All", "Beginner", "Intermediate", "Advanced"].map((f) => (
+                <Button
+                  key={f}
+                  variant={filter === f ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setFilter(f)}
+                  className="whitespace-nowrap"
+                >
+                  {f}
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

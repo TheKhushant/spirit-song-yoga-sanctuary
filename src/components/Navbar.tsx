@@ -40,7 +40,6 @@ const Navbar = () => {
         <a href="#home" className="font-display text-xl md:text-2xl font-bold text-primary">
           Spirit Song Yoga
         </a>
-
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-6">
           {navLinks.map((l) => (
